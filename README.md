@@ -67,16 +67,16 @@ module "rds" {
 
   vpc_security_group_ids = [module.vpc.default_security_group_id]
 
-  maintenance_window = "Mon:00:00-Mon:03:00"
-  backup_window      = "03:00-06:00"
+  maintenance_window     = "Mon:00:00-Mon:03:00"
+  backup_window          = "03:00-06:00"
 
   subnet_ids             = module.vpc.database_subnets
   db_subnet_group_name   = module.vpc.database_subnet_group
-  create_db_option_group  = false
+  create_db_option_group = false
 
   family = "mysql5.7"
 
-  major_engine_version = "5.7"
+  major_engine_version   = "5.7"
 }
 ```
 
@@ -101,7 +101,7 @@ module "eks" {
   subnet_ids               = module.vpc.private_subnets
   control_plane_subnet_ids = module.vpc.public_subnets
   create_kms_key           = true
-  eks_managed_node_groups = {
+  eks_managed_node_groups  = {
   one = {
     name = "node-group-1"
 
