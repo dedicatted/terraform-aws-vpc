@@ -10,7 +10,7 @@ Example for deploying vpc and ec2 instance in the vpc.
 
 ```hcl
 module vpc {
-  source = "github.com/dedicatted/terraform-aws-vpc/vpc-for-ec2"
+  source = "github.com/dedicatted/terraform-aws-vpc//vpc-for-ec2"
 }
 
 data "aws_ami" "ubuntu" {
@@ -40,7 +40,7 @@ Example for deploying vpc and database in the vpc.
 
 ```hcl
 module "vpc" {
-  source                             = "github.com/dedicatted/terraform-aws-vpc/vpc-for-database"
+  source                             = "github.com/dedicatted/terraform-aws-vpc//vpc-for-database"
   name                               = var.vpc_name
   cidr                               = var.cidr_block
   azs                                = ["${var.region}a", "${var.region}b", "${var.region}c"]
@@ -84,7 +84,7 @@ Example for deploying vpc and eks cluster in the vpc.
 
 ```hcl
 module "vpc" {
-  source             = "github.com/dedicatted/terraform-aws-vpc/vpc-for-eks"
+  source             = "github.com/dedicatted/terraform-aws-vpc//vpc-for-eks"
   name               = var.vpc_name
   cidr               = var.cidr_block
   azs                = ["${var.region}a", "${var.region}b", "${var.region}c"]
@@ -96,7 +96,7 @@ module "vpc" {
 
 module "eks" {
   source                   = "github.com/terraform-aws-modules/terraform-aws-eks"
-  cluster_name             = var.cluster_name
+  cluster_name             = "demo-cluster"
   vpc_id                   = module.vpc.vpc_id
   subnet_ids               = module.vpc.private_subnets
   control_plane_subnet_ids = module.vpc.public_subnets
