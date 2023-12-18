@@ -10,7 +10,7 @@ Example for deploying vpc and ec2 instance in the vpc.
 
 ```hcl
 module vpc {
-  source = "github.com/dedicatted/terraform-aws-vpc/vpc_for_ec2"
+  source = "github.com/dedicatted/terraform-aws-vpc/vpc-for-ec2"
 }
 
 data "aws_ami" "ubuntu" {
@@ -40,7 +40,7 @@ Example for deploying vpc and database in the vpc.
 
 ```hcl
 module "vpc" {
-  source                             = "github.com/dedicatted/terraform-aws-vpc/vpc_for_database"
+  source                             = "github.com/dedicatted/terraform-aws-vpc/vpc-for-database"
   name                               = var.vpc_name
   cidr                               = var.cidr_block
   azs                                = ["${var.region}a", "${var.region}b", "${var.region}c"]
@@ -84,7 +84,7 @@ Example for deploying vpc and eks cluster in the vpc.
 
 ```hcl
 module "vpc" {
-  source             = "github.com/dedicatted/terraform-aws-vpc/vpc_for_eks"
+  source             = "github.com/dedicatted/terraform-aws-vpc/vpc-for-eks"
   name               = var.vpc_name
   cidr               = var.cidr_block
   azs                = ["${var.region}a", "${var.region}b", "${var.region}c"]
