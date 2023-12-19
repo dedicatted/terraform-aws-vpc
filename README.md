@@ -9,8 +9,12 @@ The `terraform-aws-vpc` module includes examples to easily deploy AWS VPC using 
 Example for deploying vpc and ec2 instance in the vpc.
 
 ```hcl
-module vpc {
-  source = "github.com/dedicatted/terraform-aws-vpc//vpc-for-ec2"
+module "vpc" {
+  source         = "github.com/terraform-aws-modules/terraform-aws-vpc"
+  name           = var.vpc_name
+  cidr           = var.cidr_block
+  azs            = ["${var.region}a", "${var.region}b", "${var.region}c"]
+  public_subnets = [cidrsubnet(var.cidr_block, 8, 3), cidrsubnet(var.cidr_block, 8, 4), cidrsubnet(var.cidr_block, 8, 5)]
 }
 
 data "aws_ami" "ubuntu" {
@@ -28,19 +32,13 @@ data "aws_ami" "ubuntu" {
 
   owners = ["099720109477"]
 }
-
-resource "aws_instance" "web" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
-  subnet_id     = module.vpc.public_subnets[0]
-}
 ```
 
 Example for deploying vpc and database in the vpc.
 
 ```hcl
 module "vpc" {
-  source                             = "github.com/dedicatted/terraform-aws-vpc//vpc-for-database"
+  source                             = "github.com/terraform-aws-modules/terraform-aws-vpc"
   name                               = var.vpc_name
   cidr                               = var.cidr_block
   azs                                = ["${var.region}a", "${var.region}b", "${var.region}c"]
@@ -84,7 +82,7 @@ Example for deploying vpc and eks cluster in the vpc.
 
 ```hcl
 module "vpc" {
-  source             = "github.com/dedicatted/terraform-aws-vpc//vpc-for-eks"
+  source             = "github.com/terraform-aws-modules/terraform-aws-vpc"
   name               = var.vpc_name
   cidr               = var.cidr_block
   azs                = ["${var.region}a", "${var.region}b", "${var.region}c"]
