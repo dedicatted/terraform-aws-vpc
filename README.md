@@ -9,11 +9,15 @@ The `terraform-aws-vpc` module includes examples to easily deploy AWS VPC using 
 Example for deploying vpc and ec2 instance in the vpc.
 
 ```hcl
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 module "vpc" {
   source         = "github.com/terraform-aws-modules/terraform-aws-vpc"
   name           = var.vpc_name
   cidr           = var.cidr_block
-  azs            = ["${var.region}a", "${var.region}b", "${var.region}c"]
+  azs            = slice(data.aws_availability_zones.available.names, 0, 3)
   public_subnets = [cidrsubnet(var.cidr_block, 8, 3), cidrsubnet(var.cidr_block, 8, 4), cidrsubnet(var.cidr_block, 8, 5)]
 }
 
@@ -37,11 +41,15 @@ data "aws_ami" "ubuntu" {
 Example for deploying vpc and database in the vpc.
 
 ```hcl
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 module "vpc" {
   source                             = "github.com/terraform-aws-modules/terraform-aws-vpc"
   name                               = var.vpc_name
   cidr                               = var.cidr_block
-  azs                                = ["${var.region}a", "${var.region}b", "${var.region}c"]
+  azs                                = slice(data.aws_availability_zones.available.names, 0, 3)
   database_subnets                   = [cidrsubnet(var.cidr_block, 8, 6), cidrsubnet(var.cidr_block, 8, 7), cidrsubnet(var.cidr_block, 8, 8)]
   create_database_subnet_group       = true
   create_database_subnet_route_table = true
@@ -81,11 +89,15 @@ module "rds" {
 Example for deploying vpc and eks cluster in the vpc.
 
 ```hcl
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 module "vpc" {
   source             = "github.com/terraform-aws-modules/terraform-aws-vpc"
   name               = var.vpc_name
   cidr               = var.cidr_block
-  azs                = ["${var.region}a", "${var.region}b", "${var.region}c"]
+  azs                = slice(data.aws_availability_zones.available.names, 0, 3)
   public_subnets     = [cidrsubnet(var.cidr_block, 8, 3), cidrsubnet(var.cidr_block, 8, 4), cidrsubnet(var.cidr_block, 8, 5)]
   private_subnets    = [cidrsubnet(var.cidr_block, 8, 0), cidrsubnet(var.cidr_block, 8, 1), cidrsubnet(var.cidr_block, 8, 2)]
   enable_nat_gateway = true
